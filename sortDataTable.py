@@ -49,9 +49,12 @@ def main():
     selectTime = []
     mergeTime = []
     sizes = [100,200,300,1000,5000]
-    results = [["  ","[Size 100] ", "[Size 200] ", "[Size 300] ", "[Size 1000] ", "[Size 5000] "],
-               ["Selection"],
-               ["Merge"]]
+    results = [["Selection", "Merge"],
+               ["[Size 100] "],
+               ["[Size 200] "],
+               ["[Size 300] "],
+               ["[Size 1000] "],
+               ["[Size 5000] "]]
     
     for h in range(0,2):
         for i in range(len(sizes)):
@@ -65,7 +68,7 @@ def main():
                 ave = 0
                 for j in range(len(holder)):
                     ave += holder[j]
-                results[1].append(ave/len(holder))
+                results[i+1].append(ave/len(holder))
             elif(h == 1):
                 for j in range(0,10):
                     start = time.time()
@@ -74,11 +77,14 @@ def main():
                 ave = 0
                 for j in range(len(holder)):
                     ave += holder[j]
-                results[2].append(ave/len(holder))
+                results[i+1].append(ave/len(holder))
+    print("Average times to sort array of N length with selection sort and merge sort")
+    print()
+    print("                    " + str(results[0][0]) + "                  " + str(results[0][1]))
+    for i in range(1,len(results)):
+        print(results[i])
     
-    print(results[0])
-    print(results[1])
-    print(results[2])
+    
     
     
 if __name__ == "__main__":
