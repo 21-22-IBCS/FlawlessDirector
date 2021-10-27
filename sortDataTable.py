@@ -82,7 +82,7 @@ def main():
                     ave += holder[j]
                 results[i+1].append(ave/len(holder))
     #prints results
-    print("Average times to sort array of N length with selection sort and merge sort")
+    print("Average times to sort array of length N with selection sort and merge sort")
     print()
     print("                    " + str(results[0][0]) + "                  " + str(results[0][1]))
     for i in range(1,len(results)):
