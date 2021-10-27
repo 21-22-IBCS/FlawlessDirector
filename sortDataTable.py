@@ -37,8 +37,9 @@ def selectionSort(li):
         sortedList.append(minE)
 
     return sortedList
-        
-            
+
+
+#Makes an array that is of "length" length       
 def makeArr(length):
     re = []
     for i in range(length):
@@ -49,14 +50,16 @@ def main():
     selectTime = []
     mergeTime = []
     sizes = [100,200,300,1000,5000]
+    #2D array to hold results. This is essentially a matrix.
     results = [["Selection", "Merge"],
                ["[Size 100] "],
                ["[Size 200] "],
                ["[Size 300] "],
                ["[Size 1000] "],
                ["[Size 5000] "]]
-    
+    #Outer loop loops twice for selection sort and then merge sort
     for h in range(0,2):
+        #loops for all sizes of array.
         for i in range(len(sizes)):
             current = makeArr(sizes[i])
             holder = []
@@ -78,6 +81,7 @@ def main():
                 for j in range(len(holder)):
                     ave += holder[j]
                 results[i+1].append(ave/len(holder))
+    #prints results
     print("Average times to sort array of N length with selection sort and merge sort")
     print()
     print("                    " + str(results[0][0]) + "                  " + str(results[0][1]))
