@@ -15,7 +15,7 @@ def selectSortAlt(a):
 
 #Grade this one. This is the selection sort.
 def selectSort(a):
-
+    
     lowestNum = 0
     lowestIndex = 0
     for i in range(0,len(a)-1):
@@ -27,6 +27,7 @@ def selectSort(a):
                 lowestIndex = j
                 lowestNum = a[j]
                 #a[j], a[i] = a[i], a[j]
+        #this swaps indexes
         a[lowestIndex], a[i] = a[i], a[lowestIndex]
         #if you dont like how i swap here is an alternative
                 
