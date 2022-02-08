@@ -12,7 +12,7 @@ def mostCommonWord(yep):
     #Stores all words in a dictionary
 
     '''
-    A dictionary is ordered, mutable, and does not contain duplicates.
+    A dictionary is unordered, mutable, and does not contain duplicates.
     Values are stores with "Keys" where each key contains a value.
     The format for this is Key:Value.
     To instantiate a dictionary you use curly brackets {}
@@ -69,7 +69,20 @@ def sampleSentence(yep):
         string += yep[random.randint(0,len(yep)-1)]
     string += "."
     return string
-    
+
+def longestWords(arr):
+    amount = {}
+    for j in range(10):
+        index = 0
+        word = ""
+        length = -float('inf')
+        for i in range(len(arr)):
+            if (len(arr[i]) >= length):
+                index = i
+                word = arr[i]
+                length = len(arr[i])
+        amount[word] = arr.pop(index)
+    return amount
 
 def main():
     yep = open("alice.txt", "r")
@@ -105,6 +118,8 @@ def main():
 
 
     run = True
+
+    print(longestWords(tempArr))
     
     while(run):
         print("What information about this text would you like to display?\n")
