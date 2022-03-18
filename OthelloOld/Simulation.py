@@ -4,8 +4,8 @@ from GameBoard import GameBoard
 
 
 class Simulation(GameBoard):
-
-
+    
+    allTests = [[0,0,0,0,0,0,0,0]]
 
     def __init__(self, win,b, look):
         self.win = win
@@ -22,12 +22,22 @@ class Simulation(GameBoard):
         self.player = look
             
         
-        
 
 
 
-    def doAll(self, player):
+    def doAll(self, player, gogo):
         score = 0
+
+        m = self.occupiedSpacesP1 if player == 1 else self.occupiedSpacesP2
+        other = self.occupiedSpacesP2 if player == 1 else self.occupiedSpacesP1
+
+        if(len(m) == 0):
+            return 0
+
+        if(len(other) == 0):
+            return 10000
+
+        
         
         test1 = self.amountTake(player)
         test2 = self.adjOpen(player)
@@ -35,6 +45,11 @@ class Simulation(GameBoard):
         test4 = self.scoreW(player)
         test5 = self.unflippable(player)
         test6 = self.checkCorner(player)
+
+        
+
+        
+        
 
 
         score += test1
@@ -44,9 +59,30 @@ class Simulation(GameBoard):
         score += test5
         score += test6
 
+
         
+        
+        if(gogo):
+             print("test1: " + str(test1))
+             print("test2: " + str(test2))
+             print("test3: " + str(test3))
+             print("test4: " + str(test4))
+             print("test5: " + str(test5))
+             print("test6: " + str(test6))
+             Simulation.allTests.append([test1+Simulation.allTests[len(Simulation.allTests)-1][0],
+                                         test2+Simulation.allTests[len(Simulation.allTests)-1][1],
+                                         test3+Simulation.allTests[len(Simulation.allTests)-1][2],
+                                         test4+Simulation.allTests[len(Simulation.allTests)-1][3],
+                                         test5+Simulation.allTests[len(Simulation.allTests)-1][4],
+                                         test6+Simulation.allTests[len(Simulation.allTests)-1][5],
+                                         self.getCurrentPlay()])
+
+            
         
 
+
+            
+        
         
         '''
         if(self.getCurrentPlay()%6 == 0):
@@ -160,14 +196,25 @@ class Simulation(GameBoard):
     def amountTake(self, z):
         m = self.occupiedSpacesP1 if z == 1 else self.occupiedSpacesP2
         other = self.occupiedSpacesP2 if z == 1 else self.occupiedSpacesP1
+        player2 = 2 if z == 1 else 1
 
+        
+
+        
         mLen = 0
         ok = self.checkValidPlay(m, self.visualArr[other[0][0]][other[0][1]])
         for i in ok:
             mLen += len(i)
         otherLen = 0
+        
+        never = 0
+        try:
+        
+            never = self.checkValidPlay(other, self.visualArr[m[0][0]][m[0][1]])
+        except:
+            print(m)
+        
 
-        never = self.checkValidPlay(other, self.visualArr[m[0][0]][m[0][1]])
         for i in never:
             otherLen += len(i)
 
@@ -179,7 +226,10 @@ class Simulation(GameBoard):
     def scoreW(self,z):
         m = self.occupiedSpacesP1 if z == 1 else self.occupiedSpacesP2
         other = self.occupiedSpacesP2 if z == 1 else self.occupiedSpacesP1
-        
+        '''
+        for i in self.visualArr:
+            print(i)
+        '''
         mLen = 0
         for i in m:
             mLen += self.weights[i[0]][i[1]]

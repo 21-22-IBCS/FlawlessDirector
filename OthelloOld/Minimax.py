@@ -1,7 +1,5 @@
 from Simulation import*
 import time
-import os
-import psutil
 
 class Minimax():
 
@@ -22,7 +20,7 @@ class Minimax():
         for i in k:
             b.append(i[len(i)-1])
             '''
-        print("step 1: " + str(b))
+        
         bestScore = -float('inf')
         bestPoint = None
         start = time.time()
@@ -41,11 +39,15 @@ class Minimax():
         #del board
         
         self.bestmove = bestPoint
+        
+        board.doUpdate(self.bestmove, player, k)
+        board.doAll(player,True)
+        
+        
+        
         print("Time: " + str(time.time()-start))
         print("Best Score: " + str(bestScore))
         print("Best Move: " + str(bestPoint))
-        print('The CPU usage is: ', psutil.cpu_percent(4))
-        print('RAM memory % used:', psutil.virtual_memory()[2])
 
 
         
@@ -55,15 +57,19 @@ class Minimax():
         #print(depth)
         #print(done)
         #print()
-        
-        if (depth == 0 or node.isFinished()):
-            crazy = node.doAll(player)
-            #print(crazy)
-            
-            return crazy
+
         mainPlayer = node.occupiedSpacesP1 if player == 1 else node.occupiedSpacesP2
         otherPlayer = node.occupiedSpacesP2 if player == 1 else node.occupiedSpacesP1
         player2 = 2 if player == 1 else 1
+        
+        #if(len(mainPlayer) == 0
+        
+        if ((depth == 0 or node.isFinished())):
+            crazy = node.doAll(player, False)
+            #print(crazy)
+            
+            return crazy
+        
 
         #print(done)
         #print(len(node.checkValidPlay(mainPlayer, player2)))
@@ -81,8 +87,9 @@ class Minimax():
         score = 0
 
         if(done):
-            #print("muahuahuhuaa")
-            #print(depth)
+
+            #print("this is alsoaosaosososaos what b is")
+
             
             
             score = -float('inf')
@@ -90,8 +97,7 @@ class Minimax():
             k = node.checkValidPlay(mainPlayer, player2)
             for i in k:
                 b.append(i[len(i)-1])
-            #print("this is what b is")
-            #print(b)
+
             for i in b:
                 start = time.time()
                 gloob = Simulation(node.win, node, 0)
@@ -121,7 +127,7 @@ class Minimax():
             for i in k:
                 b.append(i[len(i)-1])
 
-            #print("this is alsoaosaosososaos what b is")
+            
             #print(b)
             
             for i in b:

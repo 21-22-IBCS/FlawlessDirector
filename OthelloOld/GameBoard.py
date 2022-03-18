@@ -49,12 +49,12 @@ class GameBoard():
             self.spaces.append([])
             for j in range(8):
                 self.spaces[i].append(squareButton(self.win, "Green", str(i) + " " + str(j), Point(j*50+25, i*50+25), 25,i,j))
-
+        '''
         for i in self.visualArr:
             print(i)
 
         print("\n\n\n\n\n")
-
+        '''
         
         if(aiStart):
             self.playerAI = 1
@@ -70,26 +70,29 @@ class GameBoard():
         
         
         
-
+        '''
 
         for i in self.visualArr:
             print(i)
+
+        '''
         
         self.updateBoard()
         
 
     def update(self, m, tOf):
-        
         theSilly = 0
         
         if(tOf):
             theSilly = squareButton.isClick(m).getLoc()
+            #theSilly = self.potential[0] if len(self.potential) == 1 else self.potential[random.randint(0,len(self.potential)-1)]
+            print(theSilly)
 
         print(self.totalTurns)
          
         
         if(((self.totalTurns%self.playerHuman == 0 and self.playerHuman == 2) or (self.totalTurns%self.playerAI != 0)) and (theSilly in self.potential) and (theSilly not in list(set(self.occupiedSpacesP1)|set(self.occupiedSpacesP2)))):
-            print("sillyhaha")
+            #print("sillyhaha")
             self.doUpdate(theSilly, self.playerHuman)
 
             ok = self.occupiedSpacesP2 if self.playerHuman == 1 else self.occupiedSpacesP1
@@ -100,7 +103,7 @@ class GameBoard():
 
 
             if(len(self.convert) == 0):
-                print("hihiiiihihihihihihihihihihihihih")
+                #print("hihiiiihihihihihihihihihihihihih")
                 other = self.occupiedSpacesP1 if self.playerHuman == 1 else self.occupiedSpacesP2
                 self.convert = self.checkValidPlay(other, self.playerAI)
                 self.updateBoard()
@@ -115,7 +118,7 @@ class GameBoard():
             
             
             s = Simulation(self.win, self, self.playerAI)
-            tinyAmount = Minimax(s, s.player, 4)
+            tinyAmount = Minimax(s, s.player, 3)
             self.doUpdate(tinyAmount.bestmove, self.playerAI)
             self.updateBoard()
             
@@ -129,12 +132,16 @@ class GameBoard():
             del tinyAmount
             
             if(len(self.convert) == 0):
-                print("ithadto")
+                #print("ithadto")
                 other = self.occupiedSpacesP1 if self.playerAI == 1 else self.occupiedSpacesP2
                 self.convert = self.checkValidPlay(other, self.playerHuman)
                 self.updateBoard()
                 temporary = self.totalTurns
+                #print("this is temporary: " + str(temporary))
+                #print("this is self.totalTurns: " + str(self.totalTurns))
                 self.update(0, False)
+                #print("this is temporary AFTER: " + str(temporary))
+                #print("this is self.totalTurns AFTER: " + str(self.totalTurns))
                 self.totalTurns = temporary
                 
             
@@ -143,9 +150,10 @@ class GameBoard():
         
         
         
-        
+        '''
         for i in self.visualArr:
             print(i)
+        '''
         #theSilly = self.potential[0] if len(self.potential) == 1 else self.potential[random.randint(0,len(self.potential)-1)]
         
         
@@ -284,6 +292,8 @@ class GameBoard():
         
     def isFinished(self):
         if (len(self.occupiedSpacesP1) + len(self.occupiedSpacesP2) == 64):
+            for i in Simulation.allTests:
+                print(i)
             return True
                 
     def getCurrentPlay(self):

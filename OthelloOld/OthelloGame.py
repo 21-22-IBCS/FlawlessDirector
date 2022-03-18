@@ -8,7 +8,7 @@ from GameBoard import*
 
 def main():
     win = GraphWin("OthelloGame", 400, 400)
-    board = GameBoard(win, True)
+    board = GameBoard(win, False)
 
     m = win.getMouse()
     while True:
