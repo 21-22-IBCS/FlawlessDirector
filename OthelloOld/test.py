@@ -1,12 +1,13 @@
-def doTheThing():
-    print("florg")
+import random
+
+def doTheThing(x=5):
+    for i in range(11):
+        print(str(i)+"*"+str(x) + " = " + str(i*x))
 
 def main():
-    oke = [1,2,3,4,1,2]
-    print(oke)
-    oke = set(oke)
-    print(oke)
-
+    num=5
+    if (num == 0 or num == 1):
+    print("The Number is 0 or 1")
     
 
 

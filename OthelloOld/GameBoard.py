@@ -14,6 +14,17 @@ class GameBoard():
         
         self.win = win
         self.lastPlayed = None
+        Simulation.lerp([
+                    [8, 85, -30, 10, 210, 520],
+                    [8, 85, -30, 10, 210, 520],
+                    [33, -50, -15, 4, 416, 2153],
+                    [46, -50, -1, 3, 612, 5000],
+                    [51, -50, 62, 3, 595, 3184],
+                    [33, -5,  60, 2, 384, 3080],
+                    [49, 50, 158, 0, 443, 3022],
+                    [15, 50, 66, 0, 121, 1900],
+                    [4, 50, 31, 0, 27, 370],
+                    [8, 500, 77, 0, 36, 350]], [0, 55, 56, 57, 58, 59, 60, 61, 62, 63]) 
         self.lastPlayedPoint = (0,0)
         self.spaces = []
         self.visualArr = []
@@ -81,6 +92,10 @@ class GameBoard():
         
 
     def update(self, m, tOf):
+        
+        if(self.isFinished()):
+            return 0
+            
         theSilly = 0
         
         if(tOf):
@@ -114,22 +129,61 @@ class GameBoard():
             self.updateBoard()
             
         if((self.totalTurns%self.playerAI == 0 and self.playerAI == 2) or (self.totalTurns%self.playerHuman != 0)):
+            
+            
+            
+            print(self.potential)
+            
+            if((0,0) in self.potential):
+                self.doUpdate((0,0), self.playerAI)
+                self.updateBoard()
+                ok = self.occupiedSpacesP2 if self.playerAI == 1 else self.occupiedSpacesP1
+                self.convert = self.checkValidPlay(ok, self.playerAI)
+                self.lastPlayedPoint = (0,0)
+            elif((0,7) in self.potential):
+                self.doUpdate((0,7), self.playerAI)
+                self.updateBoard()
+                ok = self.occupiedSpacesP2 if self.playerAI == 1 else self.occupiedSpacesP1
+                self.convert = self.checkValidPlay(ok, self.playerAI)
+                self.lastPlayedPoint = (0,7)
+            elif((7,0) in self.potential):
+                self.doUpdate((7,0), self.playerAI)
+                self.updateBoard()
+                ok = self.occupiedSpacesP2 if self.playerAI == 1 else self.occupiedSpacesP1
+                self.convert = self.checkValidPlay(ok, self.playerAI)
+                self.lastPlayedPoint = (7,0)
+            elif((7,7) in self.potential):
+                self.doUpdate((7,7), self.playerAI)
+                self.updateBoard()
+                ok = self.occupiedSpacesP2 if self.playerAI == 1 else self.occupiedSpacesP1
+                self.convert = self.checkValidPlay(ok, self.playerAI)
+                self.lastPlayedPoint = (7,7)
 
             
+             
             
-            s = Simulation(self.win, self, self.playerAI)
-            tinyAmount = Minimax(s, s.player, 3)
-            self.doUpdate(tinyAmount.bestmove, self.playerAI)
-            self.updateBoard()
-            
-            ok = self.occupiedSpacesP2 if self.playerAI == 1 else self.occupiedSpacesP1
+            else:
+                s = Simulation(self.win, self, self.playerAI)
+                print("balabballal: " + str(s.doAll(self.playerAI, True)))
+                tinyAmount = Minimax(s, s.player, 4)
+                
+                
+                
+                self.doUpdate(tinyAmount.bestmove, self.playerAI)
+                self.updateBoard()
 
-            self.convert = self.checkValidPlay(ok, self.playerAI)
-            #self.totalTurns += 1
+                ok = self.occupiedSpacesP2 if self.playerAI == 1 else self.occupiedSpacesP1
+                self.convert = self.checkValidPlay(ok, self.playerAI)
+                    
+                #self.totalTurns += 1
+                    
+                self.lastPlayedPoint = tinyAmount.bestmove
+                del s
+                del tinyAmount
+
             
-            self.lastPlayedPoint = tinyAmount.bestmove
-            del s
-            del tinyAmount
+
+            
             
             if(len(self.convert) == 0):
                 #print("ithadto")
@@ -159,6 +213,9 @@ class GameBoard():
         
             
         self.updateBoard()
+
+        
+        
         self.totalTurns += 1
         self.turn = "p1" if self.totalTurns%2 == 0 else "p2"
         print(self.potential)
@@ -291,9 +348,8 @@ class GameBoard():
             self.lastPlayed.draw(self.win)
         
     def isFinished(self):
-        if (len(self.occupiedSpacesP1) + len(self.occupiedSpacesP2) == 64):
-            for i in Simulation.allTests:
-                print(i)
+        if (len(self.occupiedSpacesP1) + len(self.occupiedSpacesP2) >= 64):
+            
             return True
                 
     def getCurrentPlay(self):

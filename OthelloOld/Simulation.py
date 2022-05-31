@@ -5,7 +5,7 @@ from GameBoard import GameBoard
 
 class Simulation(GameBoard):
     
-    allTests = [[0,0,0,0,0,0,0,0]]
+    theWeights = []
 
     def __init__(self, win,b, look):
         self.win = win
@@ -18,6 +18,21 @@ class Simulation(GameBoard):
                         [8,-4,6,4,4,6,-4,8],
                         [-10,-25,-4,-4,-4,-4,-25,-10],
                         [100,-10,8,6,6,8,-10,100]]
+
+        self.valuesForLerp = [
+                    [8, 85, -40, 10, 210, 520],
+                    [8, 85, -40, 10, 210, 520],
+                    [33, -50, -15, 4, 416, 2153],
+                    [46, -50, -1, 3, 612, 4141],
+                    [51, -50, 62, 3, 595, 3184],
+                    [33, -5,  66, 2, 384, 2777],
+                    [44, 50, 163, 0, 443, 2568],
+                    [13, 50, 66, 0, 121, 986],
+                    [4, 50, 31, 0, 27, 192],
+                    [8, 500, 77, 0, 36, 299]]
+
+
+        self.valuesInbetween = [0, 55, 56, 57, 58, 59, 60, 61, 62, 63]
 
         self.player = look
             
@@ -35,8 +50,12 @@ class Simulation(GameBoard):
             return 0
 
         if(len(other) == 0):
-            return 10000
+            return 1000000
 
+
+        
+        
+        weigh = Simulation.theWeights[len(m) + len(other)]
         
         
         test1 = self.amountTake(player)
@@ -52,15 +71,18 @@ class Simulation(GameBoard):
         
 
 
-        score += test1
-        score += test2
-        score += test3
-        score += test4
-        score += test5
-        score += test6
+        score += test1 * weigh[0]
+        score += test2 * weigh[1]
+        score += test3 * weigh[2]
+        score += test4 * weigh[3]
+        score += test5 * weigh[4]
+        score += test6 * weigh[5]
 
 
         
+
+
+        '''
         
         if(gogo):
              print("test1: " + str(test1))
@@ -81,8 +103,8 @@ class Simulation(GameBoard):
         
 
 
-            
         
+        '''
         
         '''
         if(self.getCurrentPlay()%6 == 0):
@@ -96,9 +118,37 @@ class Simulation(GameBoard):
 
             for i in self.visualArr:
                 print(i)
+        
         '''
 
+        
         return score
+
+
+    
+    @classmethod
+    def lerp(cls, valuesForLerp, valuesInbetween):
+        for i in range(65):
+            Simulation.theWeights.append([0,0,0,0,0,0])
+        
+        for i in range(65):
+            w = 0
+            for j in range(len(valuesInbetween)):
+                if(i <= valuesInbetween[j]):
+                    w = j
+                    break
+
+            if(w == 0):
+                Simulation.theWeights[i] = valuesForLerp[0]
+                continue
+
+            
+            
+            factor = ((float)(i - valuesInbetween[w-1]))/(valuesInbetween[w]-valuesInbetween[w-1])
+            
+            for j in range(len(valuesForLerp[w])):
+                Simulation.theWeights[i][j] = ((int)(round(factor*valuesForLerp[w][j]) + (1-factor) * valuesForLerp[w-1][j]))
+                
     
 
     def copyAll(self, board):
@@ -202,23 +252,25 @@ class Simulation(GameBoard):
 
         
         mLen = 0
-        ok = self.checkValidPlay(m, self.visualArr[other[0][0]][other[0][1]])
+        #ok = self.checkValidPlay(m, self.visualArr[other[0][0]][other[0][1]])
+
+        '''
         for i in ok:
             mLen += len(i)
+        '''
+        
+        mLen = len(m)
         otherLen = 0
         
         never = 0
-        try:
+        #never = self.checkValidPlay(other, self.visualArr[m[0][0]][m[0][1]])
         
-            never = self.checkValidPlay(other, self.visualArr[m[0][0]][m[0][1]])
-        except:
-            print(m)
         
-
+        '''
         for i in never:
             otherLen += len(i)
-
-        
+        '''
+        otherLen = len(other)
 
         return 100*(mLen-otherLen)/(mLen+otherLen+1)
 

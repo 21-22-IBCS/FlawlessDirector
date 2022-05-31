@@ -1,0 +1,32 @@
+Othello Game Changelog
+
+(3/14/22)
+
+ADDED
+-Functions to determine which play is the best, does not look ahead
+
+KNOWN BUGS
+-One specific set of moves breaks the entire game
+
+
+(3/16/22)
+
+ADDED
+-Minimax functionality
+
+BUG FIXES
+-Game breaking bug from one set of moves has been fixed
+
+KNOWN BUGS
+-When the AI is unable to play the game breaks occasionally  
+
+(3/17/22)
+
+BUG FIXES
+-AI can play again if human cannot play
+
+OPTIMIZATION
+-Minimax is now significantly faster
+
+ADDITIONAL NOTES
+-AI loses quite often in the late game. Need to figure out why this has been happening.

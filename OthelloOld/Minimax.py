@@ -32,6 +32,7 @@ class Minimax():
             
             
             tempScore = self.alphaBeta(croop, player, depth-1, False, -float('inf'), float('inf'))
+            
             #print(tempScore)
             if(tempScore > bestScore):
                 bestScore = tempScore
@@ -57,6 +58,9 @@ class Minimax():
         #print(depth)
         #print(done)
         #print()
+
+
+        
 
         mainPlayer = node.occupiedSpacesP1 if player == 1 else node.occupiedSpacesP2
         otherPlayer = node.occupiedSpacesP2 if player == 1 else node.occupiedSpacesP1
@@ -107,6 +111,7 @@ class Minimax():
 
                 tempScore = self.alphaBeta(gloob, player, depth-1, False, -float('inf'), float('inf'))
                 
+                
                 if(tempScore > score):
                     score = tempScore
                 if(score > alpha):
@@ -140,6 +145,7 @@ class Minimax():
                 #print("depth")
                 #print(depth)
                 tempScore = self.alphaBeta(gronk, player, depth-1, True, -float('inf'), float('inf'))
+                
                 #print("muahuahuhuaa")
                 #print(tempScore)
                 
